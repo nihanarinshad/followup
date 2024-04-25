@@ -129,7 +129,7 @@ class _TenantHomeState extends State<TenantHome> {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                        BorderRadiusDirectional.circular(20)),
+                                        BorderRadiusDirectional.circular(22)),
                                 child: ListTile(
                                   leading: SvgPicture.asset(
                                     'assets/box-notes-svgrepo-com.svg',
