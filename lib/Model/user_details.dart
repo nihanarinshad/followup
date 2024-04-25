@@ -10,12 +10,9 @@ class UserDetails {
   final int user_id;
   @HiveField(1)
   final String username;
-  @HiveField(2)
-  final DateTime dateTime;
   UserDetails({
     required this.user_id,
     required this.username,
-    required this.dateTime,
   });
 }
 

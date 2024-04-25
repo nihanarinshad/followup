@@ -19,7 +19,6 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
     return UserDetails(
       user_id: fields[0] as int,
       username: fields[1] as String,
-      dateTime: fields[2] as DateTime,
     );
   }
 
@@ -30,9 +29,7 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
       ..writeByte(0)
       ..write(obj.user_id)
       ..writeByte(1)
-      ..write(obj.username)
-      ..writeByte(2)
-      ..write(obj.dateTime);
+      ..write(obj.username);
   }
 
   @override

@@ -30,10 +30,11 @@ class FetchData extends GetxService {
     List responseAsList = response;
 
     // Convert each map in the response to your model class
+
     List<UserDetails> userDetailsList = responseAsList
         .map((userData) => UserDetails(
               user_id: userData['user_id'],
-              username: userData['username'], dateTime: userData[''],
+              username: userData['username'],
             ))
         .toList();
 
