@@ -42,7 +42,6 @@ class FetchData extends GetxService {
     // Get or open the Hive box
 
     // Clear the existing data if needed
-  
 
     var moderatorBody = {'user_type': 'moderator'};
     var encodedModeratorBody = jsonEncode(moderatorBody);
@@ -142,7 +141,6 @@ class FetchData extends GetxService {
           date: dateTime);
     }).toList();
 
-   
     var encodedInvoiceBody = jsonEncode(moderatorBody);
 
     var responseInvoice = await baseClient.postRequest(
@@ -219,11 +217,6 @@ class FetchData extends GetxService {
           user_id: userData['user_id']);
     }).toList();
 
-    var wbox = WithdrawelDetailsDB().box;
-
-    await wbox.clear();
-
-    await wbox.addAll(withdrawelList);
     var responseCustomerForm = await baseClient.getRequest(
       'view-member-form-field',
       loginHeader,

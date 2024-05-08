@@ -26,7 +26,6 @@ void main() async {
   // Hive.registerAdapter(UserDataDetailsAdapter());
   Hive.registerAdapter(StatusDetailsAdapter());
   Hive.registerAdapter(InvoiceDetailsAdapter());
-  Hive.registerAdapter(WithdrawelDetailsAdapter());
   Hive.registerAdapter(HistoryDetailsAdapter());
   Hive.registerAdapter(CustomerformDetailsAdapter());
   // Hive.registerAdapter(UserDetailsAdapter());
@@ -36,7 +35,6 @@ void main() async {
   // await UserDataDetailsDB().init();
   await StatusDetailsDB().init();
   await InvoiceDetailsDB().init();
-  await WithdrawelDetailsDB().init();
   await HistoryDetailsDB().init();
   await CustomerformDetailsDB().init();
   // await UserDetailsDB().init();

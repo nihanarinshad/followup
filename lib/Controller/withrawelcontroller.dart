@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:follow_up/Api/base_client.dart';
 import 'package:follow_up/Controller/login_controller.dart';
 
@@ -6,8 +8,10 @@ import 'package:get/get.dart';
 
 class WithdrawelController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
+  LoginController loginController = Get.find();
+
   RxList<WithdrawelDetails> withdrawelDetailsList = <WithdrawelDetails>[].obs;
-  RxList withdraw = [].obs;
+  RxList withdrawlist = [].obs;
 
   set selectedwithdrawel(WithdrawelDetails selectedwithdrawel) {}
 
@@ -31,32 +35,41 @@ class WithdrawelController extends GetxController {
     };
     var response =
         await baseClient.getRequest('view-withdrawal-request', headers);
-
-    updateWithdrawelList();
-  }
-
-  void updateWithdrawelList() {
-    final box = WithdrawelDetailsDB().box;
-
-    withdrawelDetailsList.value = box.values.toList();
-
-    withdrawelDetailsList.value = withdrawelDetailsList.reversed.toList();
-
-    box.values.forEach((element) {
-      withdraw.add(element.amount);
-      withdraw.add(element.date);
-      withdraw.add(element.status);
-      withdraw.add(element.w_id);
-      withdraw.add(element.user_id);
-    });
-
-    update();
-    // refresh();
   }
 
   @override
   void onInit() {
-    updateWithdrawelList();
     super.onInit();
+  }
+
+  Future<List> WidrawelListView() async {
+    var loginHeader = loginController.getHeaders();
+    print('object');
+    var response = await baseClient.getRequest(
+      'view-withdrawal-request',
+      loginHeader,
+    );
+    print(response);
+    print('objects');
+
+    List responseAsList = response;
+    withdrawlist.value = response;
+    withdrawlist.value = withdrawlist.reversed.toList();
+    print(response);
+    // Convert each map in the response to your model class
+
+    List<WithdrawelDetails> transactionList = withdrawlist.map((userData) {
+      var dateString = userData['date'];
+      var dateTime =
+          HttpDate.parse(dateString); // Parse RFC 3339 formatted date string
+      return WithdrawelDetails(
+          user_id: userData['user_id'], // Ensure 'id' is treated as int
+          amount:
+              userData['amount'].toInt(), // Ensure 'amount' is treated as int
+          date: dateTime,
+          w_id: userData['id'],
+          status: userData['status']);
+    }).toList();
+    return withdrawlist.value;
   }
 }
