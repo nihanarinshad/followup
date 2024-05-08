@@ -5,8 +5,8 @@ import 'package:follow_up/Tabbar_Tanent/withdrawelrequest_tabbar.dart';
 import 'package:follow_up/Tenant.Partners/Partners.dart';
 import 'package:follow_up/Tenant_Invoice.dart/Invoice.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderator.dart';
-import 'package:follow_up/Tenant_Withdrawelrequest/Withdrawelrequest.dart';
-import 'package:follow_up/Tenant_package/package.dart';
+import 'package:follow_up/Tenant_Package/packagelist.dart';
+
 import 'package:follow_up/Widgets/CircleavathraText.dart';
 import 'package:get/get.dart';
 
@@ -44,7 +44,7 @@ class TenantHomeContainers extends StatelessWidget {
                     Circleavathartext(
                       backgroundColor: Color.fromARGB(255, 248, 222, 197),
                       onPressed: () {
-                        Get.to(Package());
+                        Get.to(PackageLists());
                       },
                       icon: Icons.shopify_outlined,
                       iconColor: Colors.brown,

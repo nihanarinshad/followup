@@ -24,6 +24,11 @@ class _PackagesaddState extends State<TenantPackagesadd> {
 
   PackageController packageController = Get.put(PackageController());
   StatusController statusController = Get.put(StatusController());
+  List<String> durationOptions = ["1 month", "2 months"];
+  List<String> paymentOptions = ["Credit Card", "PayPal"];
+
+  String? _selectedDuration;
+  String? _selectedPayment;
 
   // ModeratorStudentController moderatorStudentController =
   //     Get.put(ModeratorStudentController());
@@ -51,219 +56,238 @@ class _PackagesaddState extends State<TenantPackagesadd> {
   Widget build(BuildContext context) {
     return BaseScreen(
       appBarText: 'Package',
-      body: Form(
-        // Wrap your Column with a Form widget and provide the GlobalKey
-        key: _formKey,
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.PackageNamecontroller,
-                decoration:
-                    buildInputDecorationNOIcon(hintText: 'Package Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Package Name';
-                  } else if (value.length < 3) {
-                    return 'Package Name must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.Durationcontroller,
-                decoration:
-                    buildInputDecorationNOIcon(hintText: 'Duration Month/Year'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Duration';
-                  } else if (value.length < 3) {
-                    return 'Package Name must be at least 6 Duration long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            // ContainersDropdown(
-            //   hinttext: 'Duration Month/Year',
-            //   items: ['month,2 Month'],
-            //   value: _duration, // Selected dropdown value
-            //   onChanged: (String? value) {
-            //     setState(() {
-            //       _duration = value;
-            //     });
-            //   },
-            // ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.periodcontroller,
-                decoration: buildInputDecorationNOIcon(hintText: 'Period'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Period';
-                  } else if (value.length < 1) {
-                    return 'Amount must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.Descriptioncontroller,
-                decoration: buildInputDecorationNOIcon(hintText: 'Description'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Description';
-                  } else if (value.length < 6) {
-                    return 'Description must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                height: 100,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.red, width: 2),
+      body: SingleChildScrollView(
+        child: Form(
+          // Wrap your Column with a Form widget and provide the GlobalKey
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 50),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.PackageNamecontroller,
+                  decoration:
+                      buildInputDecorationNOIcon(hintText: 'Package Name'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Package Name';
+                    } else if (value.length < 3) {
+                      return 'Package Name must be at least 6 characters long';
+                    }
+                    return null;
+                  },
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.Durationcontroller,
+                  decoration: buildInputDecorationNOIcon(
+                      hintText: 'Duration Month/Year'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Duration';
+                    } else if (value.length < 3) {
+                      return 'Package Name must be at least 6 Duration long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              ContainersDropdown(
+                hinttext: 'Duration Month/Year',
+                items: durationOptions,
+                value: _selectedDuration,
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedDuration = value;
+                  });
+                },
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.periodcontroller,
+                  decoration: buildInputDecorationNOIcon(hintText: 'Period'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Period';
+                    } else if (value.length < 1) {
+                      return 'Amount must be at least 6 characters long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.Descriptioncontroller,
+                  decoration:
+                      buildInputDecorationNOIcon(hintText: 'Description'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Description';
+                    } else if (value.length < 6) {
+                      return 'Description must be at least 6 characters long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.red, width: 2),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: _pickFile,
+                        icon: Icon(Icons.file_present_outlined,
+                            size: 30, color: Colors.red),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Choose File',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              _selectedFile != null
+                  ? Text('Selected File: ${_selectedFile!.path}')
+                  : SizedBox(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.Amountcontroller,
+                  decoration: buildInputDecorationNOIcon(hintText: 'Amount'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Amount';
+                    } else if (value.length < 6) {
+                      return 'Amount must be at least 6 characters long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: TextFormField(
+                  controller: packageController.paymenttypecontroller,
+                  decoration:
+                      buildInputDecorationNOIcon(hintText: 'Payment Type'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Type';
+                    } else if (value.length < 3) {
+                      return 'Package Name must be at least 3 Duration long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              ContainersDropdown(
+                hinttext: 'Payment Method',
+                items: paymentOptions,
+                value: _selectedPayment,
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedPayment = value;
+                  });
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 50, right: 50, top: 10, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      onPressed: _pickFile,
-                      icon: Icon(Icons.file_present_outlined,
-                          size: 30, color: Colors.red),
-                    ),
-                    SizedBox(height: 8),
                     Text(
-                      'Choose File',
-                      style: TextStyle(color: Colors.red),
+                      'Enabled',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    ToggleSwitch(
+                      minWidth: 60.0,
+                      cornerRadius: 20.0,
+                      activeBgColors: [
+                        [Colors.red[800]!],
+                        [Colors.red[800]!]
+                      ],
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      initialLabelIndex: indexValuess,
+                      totalSwitches: 2,
+                      labels: ['Yes', 'No'],
+                      radiusStyle: true,
+                      onToggle: (index) {
+                        print('switched to: $index');
+                        indexValuess = index!;
+
+                        setState(() {});
+                      },
                     ),
                   ],
                 ),
               ),
-            ),
-            _selectedFile != null
-                ? Text('Selected File: ${_selectedFile!.path}')
-                : SizedBox(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.Amountcontroller,
-                decoration: buildInputDecorationNOIcon(hintText: 'Amount'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Amount';
-                  } else if (value.length < 6) {
-                    return 'Amount must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: TextFormField(
-                controller: packageController.paymenttypecontroller,
-                decoration:
-                    buildInputDecorationNOIcon(hintText: 'Payment Type'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Type';
-                  } else if (value.length < 3) {
-                    return 'Package Name must be at least 3 Duration long';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 50, right: 50, top: 10, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Enabled',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  ToggleSwitch(
-                    minWidth: 60.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.red[800]!],
-                      [Colors.red[800]!]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: indexValuess,
-                    totalSwitches: 2,
-                    labels: ['Yes', 'No'],
-                    radiusStyle: true,
-                    onToggle: (index) {
-                      print('switched to: $index');
-                      indexValuess = index!;
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                child: Container(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // Check if date is selected
 
-                      setState(() {});
+                        print('jjnn');
+                        packageController.addPackages(
+                          packagename:
+                              packageController.PackageNamecontroller.text,
+                          period: int.parse(
+                              packageController.periodcontroller.text),
+                          discription:
+                              packageController.Descriptioncontroller.text,
+                          amount: int.parse(
+                              packageController.Amountcontroller.text),
+                          paymenttype:
+                              packageController.paymenttypecontroller.text,
+                          subscrtype: packageController.Durationcontroller.text,
+                        );
+
+                        Get.back();
+                        // studentController.updateUserList();
+                      }
                     },
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                height: 45,
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Check if date is selected
-
-                      print('jjnn');
-                      packageController.addPackages(
-                        packagename:
-                            packageController.PackageNamecontroller.text,
-                        period:
-                            int.parse(packageController.periodcontroller.text),
-                        discription:
-                            packageController.Descriptioncontroller.text,
-                        amount:
-                            int.parse(packageController.Amountcontroller.text),
-                        paymenttype:
-                            packageController.paymenttypecontroller.text,
-                        subscrtype: packageController.Durationcontroller.text,
-                      );
-
-                      Get.back();
-                      // studentController.updateUserList();
-                    }
-                  },
-                  child: Text('Save', style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    shape: StadiumBorder(),
-                    backgroundColor: Colors.red,
+                    child: Text('Save', style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder(),
+                      backgroundColor: Colors.red,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

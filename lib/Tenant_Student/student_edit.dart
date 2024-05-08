@@ -63,7 +63,7 @@ class _StudentaddState extends State<TenantStudentEdit> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
-                  controller: studentController.firstname,
+                  controller: studentController.firstnameController,
                   decoration:
                       buildInputDecorationNOIcon(hintText: 'First Name'),
                   validator: (value) {
@@ -80,7 +80,7 @@ class _StudentaddState extends State<TenantStudentEdit> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
-                  controller: studentController.lastname,
+                  controller: studentController.lastnameController,
                   decoration:
                       buildInputDecorationNOIcon(hintText: ' Last Name'),
                   validator: (value) {
@@ -97,7 +97,7 @@ class _StudentaddState extends State<TenantStudentEdit> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
-                  controller: studentController.emailcontroller,
+                  controller: studentController.emailController,
                   decoration: buildInputDecorationNOIcon(hintText: ' Email'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -186,7 +186,7 @@ class _StudentaddState extends State<TenantStudentEdit> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
-                  controller: studentController.phonecontroller,
+                  controller: studentController.phoneController,
                   decoration: buildInputDecorationNOIcon(hintText: ' Phone'),
                   keyboardType: TextInputType.number,
                   // maxLength: 10,
@@ -201,6 +201,7 @@ class _StudentaddState extends State<TenantStudentEdit> {
                 ),
               ),
               ContainersDropdown(
+                
                 hinttext: ' Status ',
                 items: statusController.dropDownList,
                 // Dropdown items
@@ -234,12 +235,13 @@ class _StudentaddState extends State<TenantStudentEdit> {
                           });
                         } else {
                           await studentController.editStudent(
-                            firstname: studentController.firstname.text,
-                            email: studentController.emailcontroller.text,
-                            phone: studentController.phonecontroller.text,
+                            firstname:
+                                studentController.firstnameController.text,
+                            email: studentController.emailController.text,
+                            phone: studentController.phoneController.text,
                             gender: studentController.gender.value,
                             dob: studentController.selectedDate.value,
-                            lastname: studentController.lastname.text,
+                            lastname: studentController.lastnameController.text,
                           );
 
                           Get.back();

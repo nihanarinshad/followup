@@ -7,8 +7,12 @@ import 'package:follow_up/Model/packages.dart';
 import 'package:get/get.dart';
 
 class PackageController extends GetxController {
+  LoginController loginController = Get.find();
+
   HttpBaseClient baseClient = HttpBaseClient();
-  RxList<PackagesDetails> packageDetailsList = <PackagesDetails>[].obs;
+  RxList<PackagesDetails> packageDataDetailsList = <PackagesDetails>[].obs;
+  RxList packageListpackageDataDetailsList = [].obs;
+
   RxInt packageid = 0.obs;
 
   TextEditingController PackageNamecontroller = TextEditingController();
@@ -52,13 +56,6 @@ class PackageController extends GetxController {
   }
 
   void updatePackageList() {
-    final box = PackageDetailsDB().box;
-
-    packageDetailsList.value = box.values.toList();
-
-    packageDetailsList.value = packageDetailsList.reversed.toList();
-
-    update();
     // refresh();
   }
 
@@ -121,53 +118,50 @@ class PackageController extends GetxController {
     paymenttypecontroller.text = response['package']['payment_type'];
   }
 
-  // Future<void> viewUser() async {
-  //   LoginController loginController = Get.find();
-  //   var headers = loginController.getHeaders();
+  Future<List> PackageListView() async {
+    var loginHeader = loginController.getHeaders();
+    var response = await baseClient.getRequest(
+      'list-packages',
+      loginHeader,
+    );
+    print('objedddddddct');
+    List responseAsList = response;
+    packageListpackageDataDetailsList.value = response;
+    packageListpackageDataDetailsList.value =
+        packageListpackageDataDetailsList.reversed.toList();
+    print(response);
+    print('response');
 
-  //   var body = {'package_id': packageid.value};
-  //   var requestBody = jsonEncode(body);
-
-  //   try {
-  //     var response = await baseClient.postRequest(
-  //         'view-package/${packageid.value}', headers, requestBody);
-
-  //     print('objectresponse');
-  //     print(response);
-  //     print('requestBody');
-  //     print(requestBody);
-  //     print('response');
-
-  //     // Verify response and handle accordingly
-  //     if (response != null &&
-  //         response is Map &&
-  //         response.containsKey('package_name')) {
-  //       PackageNamecontroller.text = response['package_name'];
-  //       Durationcontroller.text = response['subscr_type'] ?? '';
-  //       periodcontroller.text = response['subscr_period']?.toString() ?? '';
-  //       Descriptioncontroller.text = response['description'] ?? '';
-  //       Amountcontroller.text = response['amount']?.toString() ?? '';
-  //       paymenttypecontroller.text = response['payment_type'] ?? '';
-  //     } else {
-  //       // Handle case when response is null or doesn't contain expected keys
-  //       // For example, set default values for text controllers or show an error message
-  //       PackageNamecontroller.text = '';
-  //       Durationcontroller.text = '';
-  //       periodcontroller.text = '';
-  //       Descriptioncontroller.text = '';
-  //       Amountcontroller.text = '';
-  //       paymenttypecontroller.text = '';
-  //     }
-  //   } catch (e) {
-  //     // Handle error, such as displaying an error message to the user
-  //     print('Error fetching package data: $e');
-  //     // Handle case when request fails, set default values for text controllers or show an error message
-  //     PackageNamecontroller.text = '';
-  //     Durationcontroller.text = '';
-  //     periodcontroller.text = '';
-  //     Descriptioncontroller.text = '';
-  //     Amountcontroller.text = '';
-  //     paymenttypecontroller.text = '';
-  //   }
-  // }
+    List<PackagesDetails> packageDetailsList = responseAsList
+        .map((userData) => PackagesDetails(
+              p_id: userData['id'],
+              packageName: userData['package_name'],
+            ))
+        .toList();
+    return packageListpackageDataDetailsList.value;
+  }
 }
+
+//   Future<List<PackagesDetails>> packageListView() async {
+//     var loginHeader = loginController.getHeaders();
+
+//     var responsepackage = await baseClient.getRequest(
+//       'list-packages',
+//       loginHeader,
+
+//       // encodedModeratorBody,
+//     );
+//     List responseAsList = responsepackage;
+//     packageDataDetailsList.value = responsepackage;
+//     packageDataDetailsList.value = packageDataDetailsList.reversed.toList();
+//     print(responsepackage);
+
+//     List<PackagesDetails> packageDetailsList = responseAsList
+//         .map((userData) => PackagesDetails(
+//               p_id: userData['id'],
+//               packageName: userData['package_name'],
+//             ))
+//         .toList();
+//     return packageDataDetailsList.value;
+//   }
+// }

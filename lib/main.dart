@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:follow_up/Controller/login_controller.dart';
 import 'package:follow_up/Data/fetchdata.dart';
 import 'package:follow_up/LoginScreen/loginRegister.dart';
+import 'package:follow_up/Model/customer_form.dart';
 import 'package:follow_up/Model/history.dart';
 import 'package:follow_up/Model/invoice.dart';
+import 'package:follow_up/Model/loginUserDetals.dart';
 import 'package:follow_up/Model/login_details.dart';
 import 'package:follow_up/Model/moderator_details.dart';
 import 'package:follow_up/Model/packages.dart';
 import 'package:follow_up/Model/status_details.dart';
 import 'package:follow_up/Model/transactions.dart';
-import 'package:follow_up/Model/user_details.dart';
+import 'package:follow_up/Model/user.dart';
 import 'package:follow_up/Model/withdrawel.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,32 +23,33 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(LoginDetailsAdapter());
-  Hive.registerAdapter(UserDetailsAdapter());
-  Hive.registerAdapter(ModeratorDetailsAdapter());
+  // Hive.registerAdapter(UserDataDetailsAdapter());
   Hive.registerAdapter(StatusDetailsAdapter());
-  Hive.registerAdapter(PackagesDetailsAdapter());
-  Hive.registerAdapter(TransactionDetailsAdapter());
   Hive.registerAdapter(InvoiceDetailsAdapter());
   Hive.registerAdapter(WithdrawelDetailsAdapter());
   Hive.registerAdapter(HistoryDetailsAdapter());
+  Hive.registerAdapter(CustomerformDetailsAdapter());
+  // Hive.registerAdapter(UserDetailsAdapter());
+  // Hive.registerAdapter(LoginUserDataDetailAdapter());
+
   await LoginDetailsDB().init();
-  await UserDetailsDB().init();
-  await ModeratorDetailsDB().init();
+  // await UserDataDetailsDB().init();
   await StatusDetailsDB().init();
-  await PackageDetailsDB().init();
-  await TransactionDetailsDB().init();
   await InvoiceDetailsDB().init();
   await WithdrawelDetailsDB().init();
   await HistoryDetailsDB().init();
+  await CustomerformDetailsDB().init();
+  // await UserDetailsDB().init();
+  // await LoginUserDataDetailDB().init();
 
   LoginController loginController = Get.put(LoginController());
   FetchData fetchData = Get.put(FetchData());
 
-  Timer.periodic(Duration(seconds: 1), (timer) async {
-    if (loginController.isLoggedIn == true) {
-      await fetchData.fetchData();
-    }
-  });
+  // Timer.periodic(Duration(seconds: 1), (timer) async {
+  //   if (loginController.isLoggedIn == true) {
+  //     await fetchData.fetchData();
+  //   }
+  // });
   runApp(const MyApp());
 }
 

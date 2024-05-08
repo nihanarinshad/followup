@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:follow_up/Controller/student_controller.dart';
+import 'package:follow_up/Tenant_Invoice.dart/invoice.dart';
 
-import 'package:follow_up/User/Invoice.dart';
 import 'package:follow_up/User/MyProfile.dart';
 import 'package:follow_up/USERModeratorChat/Moderator.dart';
 import 'package:follow_up/Widgets/CircleavathraText.dart';
 import 'package:get/get.dart';
 
-class UserHomeContainer extends StatelessWidget {
+class UserHomeContainer extends StatefulWidget {
   const UserHomeContainer({super.key});
+
+  @override
+  State<UserHomeContainer> createState() => _UserHomeContainerState();
+}
+
+class _UserHomeContainerState extends State<UserHomeContainer> {
+  StudentController studentController = Get.put(StudentController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,7 @@ class UserHomeContainer extends StatelessWidget {
                 Circleavathartext(
                   backgroundColor: Color.fromARGB(255, 248, 222, 197),
                   onPressed: () {
-                    Get.to(UserInvoice());
+                    Get.to(Invoice());
                   },
                   icon: Icons.file_copy,
                   iconColor: Colors.brown,

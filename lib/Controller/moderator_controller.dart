@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:follow_up/Api/base_client.dart';
 import 'package:follow_up/Controller/login_controller.dart';
 import 'package:follow_up/Model/moderator_details.dart';
-import 'package:follow_up/Model/user_details.dart';
+import 'package:follow_up/Model/user.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ModeratorController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
   RxString gender = "male".obs;
+  LoginController loginController = Get.find();
+
   RxList<ModeratorDetails> moderatorDetailsList = <ModeratorDetails>[].obs;
-  RxInt studentid = 0.obs;
+  RxList userDataDetailsList = [].obs;
+
+  RxInt moderatorid = 0.obs;
   TextEditingController usernamecontroller = TextEditingController();
   TextEditingController firstcontroller = TextEditingController();
   TextEditingController lastcontroller = TextEditingController();
@@ -23,7 +27,7 @@ class ModeratorController extends GetxController {
 
   DateFormat dateFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
-  var selectedDate = DateTime.now().obs;
+  Rx<DateTime> selectedDate = DateTime.now().obs;
   Future<void> addModerator(
       {required String userName,
       required String firstname,
@@ -56,16 +60,7 @@ class ModeratorController extends GetxController {
     updateModeratorList();
   }
 
-  void updateModeratorList() {
-    final box = ModeratorDetailsDB().box;
-
-    moderatorDetailsList.value = box.values.toList();
-
-    moderatorDetailsList.value = moderatorDetailsList.reversed.toList();
-
-    update();
-    // refresh();
-  }
+  void updateModeratorList() {}
 
   @override
   void onInit() {
@@ -94,7 +89,7 @@ class ModeratorController extends GetxController {
     };
     var requestBody = jsonEncode(body);
     var response = await baseClient.putRequest(
-        'edit-user/${studentid.value}', headers, requestBody);
+        'edit-user/${moderatorid.value}', headers, requestBody);
     print('gdhgfhfhfnnnnnnnnnj');
 
     print(response);
@@ -109,7 +104,7 @@ class ModeratorController extends GetxController {
 
     print('objectresponnnnnjgggggggggggggggggnnse');
 
-    var body = {'user_id': studentid.value};
+    var body = {'user_id': moderatorid.value};
     var requestBody = jsonEncode(body);
     var response =
         await baseClient.postRequest('view-user', headers, requestBody);
@@ -121,5 +116,30 @@ class ModeratorController extends GetxController {
     phonecontroller.text = response['phone'];
     selectedDate.value = dateFormat.parse(response['dob']);
     gender.value = response['gender'];
+  }
+
+  Future<List> UserListView() async {
+    var loginHeader = loginController.getHeaders();
+    var studentBody = {'user_type': 'moderator'};
+    var encodedStudentBody = jsonEncode(studentBody);
+
+    var response = await baseClient.postRequest(
+      'user-list',
+      loginHeader,
+      encodedStudentBody,
+    );
+
+    List responseAsList = response;
+    userDataDetailsList.value = response;
+    userDataDetailsList.value = userDataDetailsList.reversed.toList();
+    print(response);
+
+    List<ModeratorDetails> moderatorDetailsList = responseAsList
+        .map((userData) => ModeratorDetails(
+              m_id: userData['user_id'],
+              moderatorName: userData['username'],
+            ))
+        .toList();
+    return userDataDetailsList.value;
   }
 }

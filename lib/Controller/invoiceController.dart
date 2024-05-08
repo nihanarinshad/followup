@@ -6,6 +6,7 @@ import 'package:follow_up/Model/invoice.dart';
 import 'package:follow_up/Model/status_details.dart';
 import 'package:follow_up/Model/transactions.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class InvoiceController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
@@ -13,6 +14,7 @@ class InvoiceController extends GetxController {
   RxList invoice = [].obs;
 
   set selectedinvoice(InvoiceDetails selectedinvoice) {}
+  DateFormat dateFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
   Future<void> addInvoice({
     required packageName,

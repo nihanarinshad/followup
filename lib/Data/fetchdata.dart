@@ -3,13 +3,14 @@ import 'dart:io';
 
 import 'package:follow_up/Api/base_client.dart';
 import 'package:follow_up/Controller/login_controller.dart';
+import 'package:follow_up/Model/customer_form.dart';
 import 'package:follow_up/Model/history.dart';
 import 'package:follow_up/Model/invoice.dart';
 import 'package:follow_up/Model/moderator_details.dart';
 import 'package:follow_up/Model/packages.dart';
 import 'package:follow_up/Model/status_details.dart';
 import 'package:follow_up/Model/transactions.dart';
-import 'package:follow_up/Model/user_details.dart';
+import 'package:follow_up/Model/user.dart';
 import 'package:follow_up/Model/withdrawel.dart';
 import 'package:get/get.dart';
 
@@ -28,24 +29,20 @@ class FetchData extends GetxService {
     );
 
     List responseAsList = response;
-
+    print(response);
     // Convert each map in the response to your model class
 
     List<UserDetails> userDetailsList = responseAsList
         .map((userData) => UserDetails(
-              user_id: userData['user_id'],
+              id: userData['user_id'],
               username: userData['username'],
             ))
         .toList();
 
     // Get or open the Hive box
-    var box = UserDetailsDB().box;
 
     // Clear the existing data if needed
-    await box.clear();
-
-    // Save the user details to the Hive box
-    await box.addAll(userDetailsList);
+  
 
     var moderatorBody = {'user_type': 'moderator'};
     var encodedModeratorBody = jsonEncode(moderatorBody);
@@ -70,12 +67,9 @@ class FetchData extends GetxService {
         .toList();
 
     // Get or open the Hive box
-    var mboxx = ModeratorDetailsDB().box;
     // Clear the existing data if needed
-    await mboxx.clear();
 
     // Save the user details to the Hive box
-    await mboxx.addAll(moderatorDetailsList);
 
     // var statusBody = {'user-type': 'moderator'};
     // var encodedStatusBody = jsonEncode(statusBody);
@@ -123,11 +117,11 @@ class FetchData extends GetxService {
         .toList();
 
     // Get or open the Hive box
-    var mboxxss = PackageDetailsDB().box;
-    // Clear the existing data if needed
-    await mboxxss.clear();
+    // var mboxxss = PackageDetailsDB().box;
+    // // Clear the existing data if needed
+    // await mboxxss.clear();
 
-    await mboxxss.addAll(packageDetailsList);
+    // await mboxxss.addAll(packageDetailsList);
 
     var responseTransaction = await baseClient.getRequest(
       'list-all-transactions',
@@ -148,12 +142,7 @@ class FetchData extends GetxService {
           date: dateTime);
     }).toList();
 
-    var mboxxsss = TransactionDetailsDB().box;
-
-    await mboxxsss.clear();
-
-    await mboxxsss.addAll(transactionList);
-
+   
     var encodedInvoiceBody = jsonEncode(moderatorBody);
 
     var responseInvoice = await baseClient.postRequest(
@@ -214,7 +203,6 @@ class FetchData extends GetxService {
       'view-withdrawal-request',
       loginHeader,
     );
-    print(responseWithdrawel);
     List responseWithdrawelList = responseWithdrawel;
 
     List<WithdrawelDetails> withdrawelList =
@@ -236,6 +224,36 @@ class FetchData extends GetxService {
     await wbox.clear();
 
     await wbox.addAll(withdrawelList);
+    var responseCustomerForm = await baseClient.getRequest(
+      'view-member-form-field',
+      loginHeader,
+    );
+    print('responseCustomerForm');
+
+    print(responseCustomerForm);
+    print('responseCustomerForm');
+
+    print(responseCustomerForm);
+    // List responseCustomerFormList = responseCustomerForm;
+
+    // List<CustomerformDetails> CustomerList =
+    //     responseCustomerFormList.map((userData) {
+    //   return CustomerformDetails(
+    //     id: userData['items']['id'],
+    //     formname: userData['items']['is_active'],
+    //     fieldname: userData['items']['field_name'],
+    //     feildtype: userData['items']['field_type'],
+    //     defaultvalue: userData['items']['default_value'],
+    //     required: userData['items']['required'],
+    //     includedreg: userData['items']['include_in_reg_form'],
+    //     modifiedby: userData['items']['modified_by'],
+    //   );
+    // }).toList();
+    // var cbox = CustomerformDetailsDB().box;
+
+    // await cbox.clear();
+
+    // await cbox.addAll(CustomerList);
     // var encodedHistoryBody = jsonEncode(moderatorBody);
 
     // var responseHistory = await baseClient.postRequest(

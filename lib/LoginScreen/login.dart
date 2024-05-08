@@ -7,7 +7,6 @@ import 'package:follow_up/Function/decoration.dart';
 import 'package:follow_up/LoginScreen/get_otp.dart';
 import 'package:follow_up/LoginScreen/loader.dart';
 import 'package:follow_up/Model/login_details.dart';
-import 'package:follow_up/Model/moderator_details.dart';
 import 'package:follow_up/Moderator/moderator.dart';
 import 'package:follow_up/TenantAdmin/Tenant_Home.dart';
 import 'package:follow_up/User/UserHome.dart';

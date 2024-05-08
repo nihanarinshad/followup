@@ -85,6 +85,11 @@ class _InvoiceState extends State<Invoice> {
                                   ],
                                 )
                               ],
+                            //   Text(
+                            // DateFormat.yMd()
+                            //     .format(studentController.selectedDate.value),
+                            // style: TextStyle(
+                            //     fontWeight: FontWeight.bold, fontSize: 12)),
                             ),
                             subtitle: Row(
                               children: [

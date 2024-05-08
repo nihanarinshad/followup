@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:follow_up/Controller/customerForm.dart';
+import 'package:follow_up/Model/customer_form.dart';
 import 'package:follow_up/Screens/BaseScreen.dart';
 import 'package:follow_up/TenantAdmin/CustomerFormAdd.dart';
 import 'package:follow_up/TenantAdmin/CustomerFormEdit.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class FormFields extends StatelessWidget {
+class FormFields extends StatefulWidget {
   const FormFields({Key? key});
+
+  @override
+  State<FormFields> createState() => _FormFieldsState();
+}
+
+class _FormFieldsState extends State<FormFields> {
+  CustomerFormController customerFormController =
+      Get.put(CustomerFormController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,44 +57,60 @@ class FormFields extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 5, // Change the itemCount as per your requirement
-                  itemBuilder: (BuildContext context, int index) {
-                    return Slidable(
-                      startActionPane:
-                          ActionPane(motion: ScrollMotion(), children: [
-                        SlidableAction(
-                          backgroundColor: Colors.blue,
-                          onPressed: (context) {
-                            Get.to(CustomerFormEdit());
-                          },
-                          icon: Icons.edit_note_sharp,
-                        )
-                      ]),
-                      child: Card(
-                        color: Colors.white,
-                        child: ListTile(
-                          leading: Text(
-                            'Field Name $index', // You can set your field name here dynamically
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          trailing: Text(
-                            'Type $index', // You can set your field type here dynamically
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                      endActionPane:
-                          ActionPane(motion: ScrollMotion(), children: [
-                        SlidableAction(
-                          backgroundColor: Colors.red,
-                          onPressed: (context) {},
-                          icon: Icons.delete_outline_rounded,
-                        )
-                      ]),
-                    );
-                  },
-                ),
+                child: ValueListenableBuilder(
+                    valueListenable: CustomerformDetailsDB().box.listenable(),
+                    builder: (BuildContext context, value, Widget? child) {
+                      final box = CustomerformDetailsDB().box;
+
+                      customerFormController.CustomerformDetailsList.value =
+                          box.values.toList();
+
+                      customerFormController.CustomerformDetailsList.value =
+                          customerFormController
+                              .CustomerformDetailsList.reversed
+                              .toList();
+                      return ListView.builder(
+                        itemCount: customerFormController
+                            .CustomerformDetailsList.length,
+                        itemBuilder: (context, index) {
+                          return Slidable(
+                            startActionPane:
+                                ActionPane(motion: ScrollMotion(), children: [
+                              SlidableAction(
+                                backgroundColor: Colors.blue,
+                                onPressed: (context) {
+                                  Get.to(CustomerFormEdit());
+                                },
+                                icon: Icons.edit_note_sharp,
+                              )
+                            ]),
+                            child: Card(
+                              color: Colors.white,
+                              child: ListTile(
+                                leading: Text(
+                                  customerFormController
+                                      .CustomerformDetailsList[index].fieldname,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                trailing: Text( 
+                                  customerFormController
+                                      .CustomerformDetailsList[index].feildtype,
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ),
+                            endActionPane:
+                                ActionPane(motion: ScrollMotion(), children: [
+                              SlidableAction(
+                                backgroundColor: Colors.red,
+                                onPressed: (context) {},
+                                icon: Icons.delete_outline_rounded,
+                              )
+                            ]),
+                          );
+                        },
+                      );
+                    }),
               ),
             ],
           ),

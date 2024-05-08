@@ -6,6 +6,7 @@ import 'package:follow_up/Controller/statusController.dart';
 import 'package:follow_up/Function/decoration.dart';
 import 'package:follow_up/Function/without_icon.dart';
 import 'package:follow_up/Screens/BaseScreen.dart';
+import 'package:follow_up/Widgets/Dropdown.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -21,7 +22,11 @@ class _PackagesaddState extends State<TenantPackagesedit> {
   final _formKey = GlobalKey<FormState>(); // Add a GlobalKey for the Form
 
   PackageController packageController = Get.put(PackageController());
+  List<String> durationOptions = ["1 month", "2 months"];
+  List<String> paymentOptions = ["Credit Card", "PayPal"];
 
+  String? _selectedDuration;
+  String? _selectedPayment;
   // ModeratorStudentController moderatorStudentController =
   //     Get.put(ModeratorStudentController());
 
@@ -89,17 +94,16 @@ class _PackagesaddState extends State<TenantPackagesedit> {
                   },
                 ),
               ),
-              // ContainersDropdown(
-              //   hinttext: 'Duration Month/Year',
-              //   items: ['month,2 Month'],
-              //   value: _duration, // Selected dropdown value
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       _duration = value;
-              //     });
-              //   },
-              // ),
-
+              ContainersDropdown(
+                hinttext: 'Duration Month/Year',
+                items: durationOptions,
+                value: _selectedDuration,
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedDuration = value;
+                  });
+                },
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -196,6 +200,16 @@ class _PackagesaddState extends State<TenantPackagesedit> {
                     return null;
                   },
                 ),
+              ),
+              ContainersDropdown(
+                hinttext: 'Payment Method',
+                items: paymentOptions,
+                value: _selectedPayment,
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedPayment = value;
+                  });
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:follow_up/Moderator/transaction.dart';
-import 'package:follow_up/Moderator_Invoice/invoice.dart';
-import 'package:follow_up/Moderator_Package/packages.dart';
+
 import 'package:follow_up/Moderator_Partner/partner.dart';
 import 'package:follow_up/Screens/tenant_transaction.dart';
 import 'package:follow_up/Tabbar_Tanent/student_tabbar.dart';
 import 'package:follow_up/Tenant_Invoice.dart/Invoice.dart';
-import 'package:follow_up/Tenant_package/package.dart';
 
 import 'package:follow_up/Widgets/CircleavathraText.dart';
 import 'package:get/get.dart';
@@ -43,7 +40,7 @@ class ModeratorContainers extends StatelessWidget {
                 Circleavathartext(
                   backgroundColor: Color.fromARGB(255, 248, 222, 197),
                   onPressed: () {
-                    Get.to(Package());
+                    // Get.to(PackageLists());
                   },
                   icon: Icons.shopify_outlined,
                   iconColor: Colors.brown,

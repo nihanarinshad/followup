@@ -55,7 +55,7 @@ class _MyprofileState extends State<StudentJoinTabbareye>
             children: [
               SizedBox(width: 30),
               Text(
-                studentController.firstname.text,
+                'studentController.firstname.text',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Spacer(),

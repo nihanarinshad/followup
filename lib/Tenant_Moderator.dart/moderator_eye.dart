@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:follow_up/Controller/moderator_controller.dart';
 import 'package:follow_up/Screens/BaseScreen.dart';
 import 'package:follow_up/Widgets/Unfilledelevatedbutton.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 
 class Moderatoreye extends StatefulWidget {
   const Moderatoreye({super.key});
@@ -13,7 +17,7 @@ class Moderatoreye extends StatefulWidget {
 
 class _eyeState extends State<Moderatoreye> {
   String _textFieldValue = "";
-
+  ModeratorController moderatorController = Get.put(ModeratorController());
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
@@ -25,7 +29,7 @@ class _eyeState extends State<Moderatoreye> {
             child: Row(
               children: [
                 Text(
-                  'Moderator 1',
+                  moderatorController.firstcontroller.text,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -46,14 +50,16 @@ class _eyeState extends State<Moderatoreye> {
                     ListTile(
                       title:
                           Text('Email', style: TextStyle(color: Colors.grey)),
-                      trailing: Text('nihana@gmail.com',
+                      trailing: Text(moderatorController.emailcontroller.text,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15)),
                     ),
                     Divider(),
                     ListTile(
                       title: Text('DOB', style: TextStyle(color: Colors.grey)),
-                      trailing: Text('14-07-2003',
+                      trailing: Text(
+                          DateFormat.yMd()
+                              .format(moderatorController.selectedDate.value),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15)),
                     ),
@@ -61,7 +67,7 @@ class _eyeState extends State<Moderatoreye> {
                     ListTile(
                       title: Text('phonenumber',
                           style: TextStyle(color: Colors.grey)),
-                      trailing: Text('9048402571',
+                      trailing: Text(moderatorController.phonecontroller.text,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15)),
                     ),
@@ -69,7 +75,7 @@ class _eyeState extends State<Moderatoreye> {
                     ListTile(
                       title:
                           Text('Gender', style: TextStyle(color: Colors.grey)),
-                      trailing: Text('female',
+                      trailing: Text(moderatorController.gender.value,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15)),
                     ),

@@ -3,35 +3,37 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:follow_up/Api/base_client.dart';
 import 'package:follow_up/Controller/login_controller.dart';
-import 'package:follow_up/Model/user_details.dart';
+import 'package:follow_up/Model/user.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class StudentController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
+  LoginController loginController = Get.find();
+
   RxString gender = "male".obs;
   RxList<UserDetails> userDetailsList = <UserDetails>[].obs;
+  RxList userDataDetailsList = [].obs;
+
   RxInt studentid = 0.obs;
-  TextEditingController usernamecontroller = TextEditingController();
-  TextEditingController firstname = TextEditingController();
-  TextEditingController lastname = TextEditingController();
-
-  TextEditingController emailcontroller = TextEditingController();
-
-  TextEditingController phonecontroller = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   DateFormat dateFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
   Rx<DateTime> selectedDate = DateTime.now().obs;
-  Future<void> addStudent(
-      {required String firstname,
-      required String userName,
-      required String lastname,
-      required String email,
-      required String phone,
-      required String gender,
-      required DateTime dob}) async {
-    RxInt values = RxInt(0);
 
+  Future<void> addStudent({
+    required String firstname,
+    required String userName,
+    required String lastname,
+    required String email,
+    required String phone,
+    required String gender,
+    required DateTime dob,
+  }) async {
     LoginController loginController = Get.find();
     var headers = loginController.getHeaders();
 
@@ -54,14 +56,8 @@ class StudentController extends GetxController {
   }
 
   void updateUserList() {
-    final box = UserDetailsDB().box;
-
-    userDetailsList.value = box.values.toList();
-
-    userDetailsList.value = userDetailsList.reversed.toList();
-
-    update();
-    // refresh();
+    // Here you can fetch the user details from your API
+    // and update the userDetailsList accordingly
   }
 
   @override
@@ -70,13 +66,14 @@ class StudentController extends GetxController {
     super.onInit();
   }
 
-  Future<void> editStudent(
-      {required String firstname,
-      required String lastname,
-      required String email,
-      required String phone,
-      required String gender,
-      required DateTime dob}) async {
+  Future<void> editStudent({
+    required String firstname,
+    required String lastname,
+    required String email,
+    required String phone,
+    required String gender,
+    required DateTime dob,
+  }) async {
     LoginController loginController = Get.find();
     var headers = loginController.getHeaders();
 
@@ -103,14 +100,37 @@ class StudentController extends GetxController {
     var response =
         await baseClient.postRequest('view-user', headers, requestBody);
 
-    lastname.text = response['lastname'];
-    firstname.text = response['firstname'];
-
-    emailcontroller.text = response['email'];
-    phonecontroller.text = response['phone'];
+    lastnameController.text = response['lastname'];
+    firstnameController.text = response['firstname'];
+    emailController.text = response['email'];
+    phoneController.text = response['phone'];
     selectedDate.value = dateFormat.parse(response['dob']);
     gender.value = response['gender'];
+  }
 
-    // gender.value = response['gender'];
+  Future<List> UserListView() async {
+    var loginHeader = loginController.getHeaders();
+    var studentBody = {'user_type': 'student'};
+    var encodedStudentBody = jsonEncode(studentBody);
+
+    var response = await baseClient.postRequest(
+      'user-list',
+      loginHeader,
+      encodedStudentBody,
+    );
+
+    List responseAsList = response;
+    userDataDetailsList.value = response;
+    userDataDetailsList.value = userDataDetailsList.reversed.toList();
+    print(response);
+    // Convert each map in the response to your model class
+
+    List<UserDetails> userDetailsList = responseAsList
+        .map((userData) => UserDetails(
+              id: userData['user_id'],
+              username: userData['username'],
+            ))
+        .toList();
+    return userDataDetailsList.value;
   }
 }

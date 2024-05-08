@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:follow_up/Controller/student_controller.dart';
 import 'package:follow_up/Screens/BaseScreen.dart';
 import 'package:follow_up/TABBAR_USER/Documents.dart';
 import 'package:follow_up/TABBAR_USER/History.dart';
 import 'package:follow_up/TABBAR_USER/Package.dart';
 import 'package:follow_up/TABBAR_USER/Profile.dart';
 import 'package:follow_up/TABBAR_USER/Transaction.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class Myprofile extends StatefulWidget {
   @override
   _MyprofileState createState() => _MyprofileState();
 }
+
+final StudentController studentController = Get.put(StudentController());
 
 class _MyprofileState extends State<Myprofile>
     with SingleTickerProviderStateMixin {
@@ -47,7 +52,7 @@ class _MyprofileState extends State<Myprofile>
             children: [
               SizedBox(width: 30),
               Text(
-                'User 1',
+                'studentController.firstname.text',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Spacer(),

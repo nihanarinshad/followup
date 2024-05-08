@@ -11,10 +11,9 @@ import 'package:intl/intl.dart';
 class HistoryController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
   RxList<HistoryDetails> historyDetailsList = <HistoryDetails>[].obs;
-  RxList history = [].obs;
+  RxList historyid = [].obs;
   TextEditingController status_name = TextEditingController();
   TextEditingController Comments = TextEditingController();
-  TextEditingController next_appointment_date = TextEditingController();
   DateFormat dateFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
   set selectedhistory(HistoryDetails selectedhistory) {}
@@ -22,24 +21,24 @@ class HistoryController extends GetxController {
   Rx<DateTime> apSelectedDate = DateTime.now().obs;
 
   Future<void> addHistory({
-    required Comments,
-    required date,
-    required next_appointment_date,
-    required status_name,
+    required String Comments,
+    required DateTime next_appointment_date,
+    required int status_name,
   }) async {
     LoginController loginController = Get.find();
     var headers = loginController.getHeaders();
     HistoryDetails? selectedhistory;
 
     var body = {
-      "date": date,
-      "status_name": status_name,
+      "status_id": status_name,
       "next_appointment_date": next_appointment_date,
       "comments": Comments,
     };
+    print('ncmmmdmddjjjjjjjjjjkd');
     var requestBody = jsonEncode(body);
     var response = await baseClient.postRequest(
-        'view-communication-history', headers, requestBody);
+        'add-status-field-data', headers, requestBody);
+    print('ncmmmdmddkd');
 
     updatehistorylist();
   }
@@ -56,10 +55,10 @@ class HistoryController extends GetxController {
     historyDetailsList.value = historyDetailsList.reversed.toList();
 
     box.values.forEach((element) {
-      history.add(element.status_name);
-      history.add(element.comments);
-      history.add(element.nextappoinmentdate);
-      history.add(element.appoinmentdate);
+      historyid.add(element.status_name);
+      historyid.add(element.comments);
+      historyid.add(element.nextappoinmentdate);
+      historyid.add(element.appoinmentdate);
     });
 
     update();
@@ -76,7 +75,7 @@ class HistoryController extends GetxController {
     LoginController loginController = Get.find();
     var headers = loginController.getHeaders();
 
-    var body = {'user_id': history.value};
+    var body = {'user_id': historyid.value};
     var requestBody = jsonEncode(body);
     var response = await baseClient.postRequest(
         'view-communication-history', headers, requestBody);

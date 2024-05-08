@@ -23,6 +23,20 @@ class _stdeyetate extends State<TenantStudentEye> {
   HistoryController historyController = Get.put(HistoryController());
 
   String _textFieldValue = "";
+  DateTime? selectedDate;
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && picked != historyController.selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +44,7 @@ class _stdeyetate extends State<TenantStudentEye> {
       appBarText: 'Student',
       body: Column(children: [
         ListTile(
-          title: Text(studentController.firstname.text,
+          title: Text(studentController.firstnameController.text,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           trailing: ElevatedButton.icon(
             icon: const Icon(Icons.settings, size: 18),
@@ -79,7 +93,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                       child: ListTile(
                         title:
                             Text('Email', style: TextStyle(color: Colors.grey)),
-                        trailing: Text(studentController.emailcontroller.text,
+                        trailing: Text(studentController.emailController.text,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12)),
                       ),
@@ -105,7 +119,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                       child: ListTile(
                         title: Text('phonenumber',
                             style: TextStyle(color: Colors.grey)),
-                        trailing: Text(studentController.phonecontroller.text,
+                        trailing: Text(studentController.phoneController.text,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12)),
                       ),
@@ -248,7 +262,7 @@ class _stdeyetate extends State<TenantStudentEye> {
           title: Container(
             child: Column(
               children: [
-                Text('update communication status',
+                Text('update communication tatus',
                     style: TextStyle(
                         fontSize: 12,
                         color: Colors.red,
@@ -260,7 +274,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                     padding:
                         const EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: TextField(
-                      controller: status,
+                      controller: historyController.status_name,
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.black12,
@@ -282,7 +296,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                     padding:
                         const EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: TextField(
-                      controller: comment,
+                      controller: historyController.Comments,
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.black12,
@@ -295,6 +309,46 @@ class _stdeyetate extends State<TenantStudentEye> {
                     ),
                   ),
                 ),
+                GestureDetector(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.red, width: 2),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                selectedDate != null
+                                    ? DateFormat.yMd().format(selectedDate!)
+                                    : "DOD", // Display formatted date if selectedDate is not null, else display empty string
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Icon(
+                              Icons.calendar_today,
+                              color: Colors.red,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   width: 400,
                   height: 55,
@@ -302,7 +356,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                     padding:
                         const EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: TextField(
-                      controller: appoinment,
+                      controller: historyController.status_name,
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.black12,
@@ -332,7 +386,7 @@ class _stdeyetate extends State<TenantStudentEye> {
                     padding:
                         const EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: TextField(
-                      controller: date,
+                      controller: historyController.Comments,
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.black12,
@@ -349,8 +403,18 @@ class _stdeyetate extends State<TenantStudentEye> {
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
-                    onPressed: () {
-                      // Save logic here
+                    onPressed: () async {
+                      print('jjnn');
+                      await historyController.addHistory(
+                        Comments: historyController.Comments.text,
+                        next_appointment_date:
+                            historyController.selectedDate.value,
+                        status_name:
+                            int.parse(historyController.status_name.text),
+                      );
+
+                      Get.back();
+                      // studentController.updateUserList();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

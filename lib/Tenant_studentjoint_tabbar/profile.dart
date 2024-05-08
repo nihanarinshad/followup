@@ -34,7 +34,7 @@ class _TSprofileState extends State<TSprofile> {
               children: [
                 ListTile(
                   title: Text('Email', style: TextStyle(color: Colors.grey)),
-                  trailing: Text(studentController.emailcontroller.text,
+                  trailing: Text('studentController.emailcontroller.text',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ),
@@ -51,7 +51,7 @@ class _TSprofileState extends State<TSprofile> {
                 ListTile(
                   title:
                       Text('phonenumber', style: TextStyle(color: Colors.grey)),
-                  trailing: Text(studentController.phonecontroller.text,
+                  trailing: Text('studentController.phonecontroller.text',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ),
