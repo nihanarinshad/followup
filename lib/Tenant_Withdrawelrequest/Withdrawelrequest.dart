@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:follow_up/Controller/withrawelcontroller.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:intl/intl.dart';
 
 class Withrdrawelrequest extends StatelessWidget {
   const Withrdrawelrequest({super.key});
@@ -16,6 +13,7 @@ class Withrdrawelrequest extends StatelessWidget {
     final WithdrawelController withdrawelController =
         Get.put(WithdrawelController());
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 246, 241, 241),
       body: FutureBuilder(
           future: withdrawelController.WidrawelListView(),
           builder: (context, snapshot) {

@@ -12,6 +12,7 @@ class PackageController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
   RxList<PackagesDetails> packageDataDetailsList = <PackagesDetails>[].obs;
   RxList packageListpackageDataDetailsList = [].obs;
+  RxString selectedPaymentOption = ''.obs;
 
   RxInt packageid = 0.obs;
 

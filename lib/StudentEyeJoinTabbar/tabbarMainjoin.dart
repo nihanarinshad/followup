@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:follow_up/Controller/student_controller.dart';
 import 'package:follow_up/Screens/BaseScreen.dart';
+import 'package:follow_up/StudentEyeJoinTabbar/Tpackages.dart';
+import 'package:follow_up/StudentEyeJoinTabbar/tDocument.dart';
+import 'package:follow_up/StudentEyeJoinTabbar/tHistory.dart';
+import 'package:follow_up/StudentEyeJoinTabbar/tProfile.dart';
+import 'package:follow_up/StudentEyeJoinTabbar/tTransactions.dart';
 import 'package:follow_up/TABBAR_USER/Documents.dart';
 import 'package:follow_up/TABBAR_USER/History.dart';
 import 'package:follow_up/TABBAR_USER/Package.dart';
 import 'package:follow_up/TABBAR_USER/Profile.dart';
 import 'package:follow_up/TABBAR_USER/Transaction.dart';
-import 'package:follow_up/Tenant_studentjoint_tabbar/documants.dart';
-import 'package:follow_up/Tenant_studentjoint_tabbar/history.dart';
-import 'package:follow_up/Tenant_studentjoint_tabbar/packages.dart';
-import 'package:follow_up/Tenant_studentjoint_tabbar/profile.dart';
-import 'package:follow_up/Tenant_studentjoint_tabbar/trasaction.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class StudentJoinTabbareye extends StatefulWidget {
+class StudentJoinEyess extends StatefulWidget {
   @override
   _MyprofileState createState() => _MyprofileState();
 }
 
-class _MyprofileState extends State<StudentJoinTabbareye>
+final StudentController studentController = Get.put(StudentController());
+
+class _MyprofileState extends State<StudentJoinEyess>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool showEditIcon = true; // Initially set to true to show the edit icon
-  final StudentController studentController = Get.put(StudentController());
 
   @override
   void initState() {
@@ -48,14 +50,14 @@ class _MyprofileState extends State<StudentJoinTabbareye>
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      appBarText: 'My Profile',
+      appBarText: 'Student',
       body: Column(
         children: [
           Row(
             children: [
               SizedBox(width: 30),
               Text(
-                'studentController.firstname.text',
+                studentController.firstnameController.text,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Spacer(),
@@ -103,11 +105,11 @@ class _MyprofileState extends State<StudentJoinTabbareye>
             child: TabBarView(
               controller: _tabController,
               children: [
-                TSprofile(),
-                TShistory(),
-                TSpackages(),
-                TSDocuments(),
-                TSTransaction(),
+                Tenantssprofile(),
+                Thistory(),
+                Tpackages(),
+                TDocuments(),
+                TenantsTransaction(),
               ],
             ),
           ),

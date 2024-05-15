@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TSTransaction extends StatefulWidget {
-  const TSTransaction({super.key});
+class TenantsTransaction extends StatefulWidget {
+  const TenantsTransaction({super.key});
 
   @override
-  State<TSTransaction> createState() => _TenantTransactionState();
+  State<TenantsTransaction> createState() => _TenantTransactionState();
 }
 
-class _TenantTransactionState extends State<TSTransaction> {
+class _TenantTransactionState extends State<TenantsTransaction> {
   final List<String> Idno = ['T001', 'T001', 'T001', 'T006', 'T005'];
   final List<String> Date = [
     '14-02-2003',

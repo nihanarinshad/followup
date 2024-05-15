@@ -44,18 +44,14 @@ class WithdrawelController extends GetxController {
 
   Future<List> WidrawelListView() async {
     var loginHeader = loginController.getHeaders();
-    print('object');
     var response = await baseClient.getRequest(
       'view-withdrawal-request',
       loginHeader,
     );
-    print(response);
-    print('objects');
 
     List responseAsList = response;
     withdrawlist.value = response;
     withdrawlist.value = withdrawlist.reversed.toList();
-    print(response);
     // Convert each map in the response to your model class
 
     List<WithdrawelDetails> transactionList = withdrawlist.map((userData) {

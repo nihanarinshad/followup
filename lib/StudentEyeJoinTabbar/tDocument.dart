@@ -5,12 +5,12 @@ import 'package:follow_up/Function/decoration.dart';
 import 'package:follow_up/Widgets/ElevatedButton.dart';
 import 'package:image_picker/image_picker.dart';
 
-class TSDocuments extends StatefulWidget {
+class TDocuments extends StatefulWidget {
   @override
-  State<TSDocuments> createState() => _DocumentState();
+  State<TDocuments> createState() => _DocumentState();
 }
 
-class _DocumentState extends State<TSDocuments> {
+class _DocumentState extends State<TDocuments> {
   TextEditingController documentscontrollers = TextEditingController();
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(); // Key for the form

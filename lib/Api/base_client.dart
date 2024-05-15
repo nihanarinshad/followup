@@ -13,9 +13,9 @@ class HttpBaseClient {
 
     try {
       final response = await http.post(url, headers: header, body: payLoad);
+      print(response.body);
+      print(response.statusCode);
       return _parseResponseData(response);
-      // print(response.body);
-      // print(response.statusCode);
     } catch (e) {
       print('Error occurred during POST request: $e');
       return null;

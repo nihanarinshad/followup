@@ -80,23 +80,17 @@ class FetchData extends GetxService {
       // encodedModeratorBody,
     );
 
-    List responsessAsList = responsess;
+    // List responsessAsList = responsess;
 
-    // Convert each map in the response to your model class
-    List<StatusDetails> statusDetailsList = responsessAsList
-        .map((userData) => StatusDetails(
-              s_Id: userData['id'],
-              status: userData['status_name'],
-            ))
-        .toList();
+    // // Convert each map in the response to your model class
+    // List<StatusDetails> statusDetailsList = responsessAsList
+    //     .map((userData) => StatusDetails(
+    //           s_Id: userData['id'],
+    //           status: userData['status_name'],
+    //         ))
+    //     .toList();
 
     // Get or open the Hive box
-    var mboxxs = StatusDetailsDB().box;
-    // Clear the existing data if needed
-    await mboxxs.clear();
-
-    // Save the user details to the Hive box
-    await mboxxs.addAll(statusDetailsList);
 
     var responsepackage = await baseClient.getRequest(
       'list-packages',
@@ -163,11 +157,6 @@ class FetchData extends GetxService {
           date: datesTime);
     }).toList();
 
-    var invbox = InvoiceDetailsDB().box;
-
-    await invbox.clear();
-    await invbox.addAll(invoiceDetailsList);
-
     var encodedHistoryBody = jsonEncode(moderatorBody);
 
 // Make the POST request
@@ -185,17 +174,13 @@ class FetchData extends GetxService {
       var datesString = historyItem['date'];
       var datessTime = HttpDate.parse(datesString);
       return HistoryDetails(
-          comments: historyItem['comments'],
-          nextappoinmentdate: datesTime,
-          status_name: historyItem['status_name'],
-          appoinmentdate: datessTime,
-          h_id: 123);
+        comments: historyItem['comments'],
+        nextappoinmentdate: datesTime,
+        status_name: historyItem['status_name'],
+        appoinmentdate: datessTime,
+        id: historyItem['id'],
+      );
     }).toList();
-
-    var historybox = HistoryDetailsDB().box;
-
-    await historybox.clear();
-    await historybox.addAll(historyDetailsList);
 
     var responseWithdrawel = await baseClient.getRequest(
       'view-withdrawal-request',

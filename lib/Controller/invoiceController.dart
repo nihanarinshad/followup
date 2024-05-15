@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:follow_up/Api/base_client.dart';
 import 'package:follow_up/Controller/login_controller.dart';
@@ -10,8 +11,10 @@ import 'package:intl/intl.dart';
 
 class InvoiceController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
+  LoginController loginController = Get.find();
+
   RxList<InvoiceDetails> invoiceDetailsList = <InvoiceDetails>[].obs;
-  RxList invoice = [].obs;
+  RxList invoicesDetailsListsss = [].obs;
 
   set selectedinvoice(InvoiceDetails selectedinvoice) {}
   DateFormat dateFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
@@ -39,33 +42,28 @@ class InvoiceController extends GetxController {
     var requestBody = jsonEncode(body);
     var response =
         await baseClient.postRequest('list_all_invoices', headers, requestBody);
-
-    updateIvoiceList();
-  }
-
-  void updateIvoiceList() {
-    final box = InvoiceDetailsDB().box;
-
-    invoiceDetailsList.value = box.values.toList();
-
-    invoiceDetailsList.value = invoiceDetailsList.reversed.toList();
-
-    box.values.forEach((element) {
-      invoice.add(element.amount);
-      invoice.add(element.date);
-      invoice.add(element.packageName);
-      invoice.add(element.userName);
-      invoice.add(element.iv_id);
-      invoice.add(element.userid);
-    });
-
-    update();
-    // refresh();
   }
 
   @override
   void onInit() {
-    updateIvoiceList();
     super.onInit();
+  }
+
+  Future<List> InvoiceListView() async {
+    var loginHeader = loginController.getHeaders();
+    var moderatorBody = {'user_id:': invoicesDetailsListsss.value};
+
+    var encodedInvoiceBody = jsonEncode(moderatorBody);
+
+    var response = await baseClient.postRequest(
+        'list_all_invoices', loginHeader, encodedInvoiceBody);
+
+    List responseAsList = response;
+    invoicesDetailsListsss.value = response;
+    invoicesDetailsListsss.value = invoicesDetailsListsss.reversed.toList();
+    print(response);
+    print('response');
+
+    return invoicesDetailsListsss.value;
   }
 }

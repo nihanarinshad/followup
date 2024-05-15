@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:follow_up/Screens/tenantHome.dart';
-import 'package:follow_up/TenantAdmin/CustomerForm.dart';
+import 'package:follow_up/TenantAdmin/tenantCustomerForm.dart';
 import 'package:follow_up/TenantAdmin/Status.dart';
 import 'package:follow_up/Widgets/Drawer.dart';
 import 'package:get/get.dart';

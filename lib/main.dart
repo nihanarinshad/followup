@@ -23,22 +23,8 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(LoginDetailsAdapter());
-  // Hive.registerAdapter(UserDataDetailsAdapter());
-  Hive.registerAdapter(StatusDetailsAdapter());
-  Hive.registerAdapter(InvoiceDetailsAdapter());
-  Hive.registerAdapter(HistoryDetailsAdapter());
-  Hive.registerAdapter(CustomerformDetailsAdapter());
-  // Hive.registerAdapter(UserDetailsAdapter());
-  // Hive.registerAdapter(LoginUserDataDetailAdapter());
 
   await LoginDetailsDB().init();
-  // await UserDataDetailsDB().init();
-  await StatusDetailsDB().init();
-  await InvoiceDetailsDB().init();
-  await HistoryDetailsDB().init();
-  await CustomerformDetailsDB().init();
-  // await UserDetailsDB().init();
-  // await LoginUserDataDetailDB().init();
 
   LoginController loginController = Get.put(LoginController());
   FetchData fetchData = Get.put(FetchData());

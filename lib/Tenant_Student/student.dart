@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:follow_up/Controller/historycontroller.dart';
 import 'package:follow_up/Tenant_Student/student_Eye.dart';
 import 'package:follow_up/Tenant_Student/student_add.dart';
 import 'package:follow_up/Tenant_Student/student_edit.dart';
@@ -18,6 +19,7 @@ class TenantStudent extends StatefulWidget {
 
 class _TenantStudentState extends State<TenantStudent> {
   final StudentController studentController = Get.put(StudentController());
+  final HistoryController historyController = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,11 @@ class _TenantStudentState extends State<TenantStudent> {
                                         ['user_id'];
 
                                 await studentController.viewUser();
+                                // historyController.historyid.value =
+                                //     historyController.historyid[index]
+                                //         ['user_id'];
+
+                                // await historyController.viewListHistory();
 
                                 Get.to(TenantStudentEye());
                               },

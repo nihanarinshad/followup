@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:follow_up/Controller/package_controller.dart';
+import 'package:follow_up/Screens/floatingActionBaceScreen.dart';
 
 import 'package:follow_up/Tenant_Package/package_add.dart';
 import 'package:follow_up/Tenant_Package/package_edit.dart';
@@ -21,109 +22,99 @@ class _TenantStudxentState extends State<PackageLists> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 246, 241, 241),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(TenantPackagesadd())!.then((value) {
-              setState(() {});
-            });
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          backgroundColor: Colors.red,
+    return FloatBaseScreen(
+      appBarText: 'Packages',
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(TenantPackagesadd())!.then((value) {
+            setState(() {});
+          });
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          centerTitle: true,
-          title: Text('Packages'),
-          foregroundColor: Colors.white,
-        ),
-        body: FutureBuilder(
-            future: packageController.PackageListView(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: packageController
-                        .packageListpackageDataDetailsList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 3),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Slidable(
-                            startActionPane:
-                                ActionPane(motion: ScrollMotion(), children: [
-                              SlidableAction(
-                                backgroundColor:
-                                    Color.fromARGB(255, 11, 64, 107),
-                                onPressed: (context) async {
-                                  packageController
-                                      .packageid.value = packageController
-                                          .packageListpackageDataDetailsList[
-                                      index]['id'];
+        backgroundColor: Colors.red,
+      ),
+      body: FutureBuilder(
+          future: packageController.PackageListView(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: packageController
+                      .packageListpackageDataDetailsList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 3),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Slidable(
+                          startActionPane:
+                              ActionPane(motion: ScrollMotion(), children: [
+                            SlidableAction(
+                              backgroundColor: Color.fromARGB(255, 11, 64, 107),
+                              onPressed: (context) async {
+                                packageController.packageid.value =
+                                    packageController
+                                            .packageListpackageDataDetailsList[
+                                        index]['id'];
 
-                                  await packageController.viewUsersss();
+                                await packageController.viewUsersss();
 
-                                  Get.to(Tenant_packageview());
-                                },
-                                icon: Icons.remove_red_eye_outlined,
-                              )
-                            ]),
-                            endActionPane:
-                                ActionPane(motion: ScrollMotion(), children: [
-                              SlidableAction(
-                                backgroundColor: Color.fromARGB(255, 47, 2, 53),
-                                onPressed: (context) async {
-                                  packageController
-                                      .packageid.value = packageController
-                                          .packageListpackageDataDetailsList[
-                                      index]['id'];
+                                Get.to(Tenant_packageview());
+                              },
+                              icon: Icons.remove_red_eye_outlined,
+                            )
+                          ]),
+                          endActionPane:
+                              ActionPane(motion: ScrollMotion(), children: [
+                            SlidableAction(
+                              backgroundColor: Color.fromARGB(255, 47, 2, 53),
+                              onPressed: (context) async {
+                                packageController.packageid.value =
+                                    packageController
+                                            .packageListpackageDataDetailsList[
+                                        index]['id'];
 
-                                  await packageController.viewUsersss();
+                                await packageController.viewUsersss();
 
-                                  Get.to(() => TenantPackagesedit());
-                                },
-                                icon: Icons.edit,
-                              )
-                            ]),
-                            child: Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  radius: 25,
-                                  child: SvgPicture.asset(
-                                    'assets/people-svgrepo-com.svg',
-                                    height: 30,
-                                  ),
+                                Get.to(() => TenantPackagesedit());
+                              },
+                              icon: Icons.edit,
+                            )
+                          ]),
+                          child: Card(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 25,
+                                child: SvgPicture.asset(
+                                  'assets/people-svgrepo-com.svg',
+                                  height: 30,
                                 ),
-                                title: Text(
-                                  packageController
-                                          .packageListpackageDataDetailsList[
-                                      index]['package_name'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
+                              ),
+                              title: Text(
+                                packageController
+                                        .packageListpackageDataDetailsList[
+                                    index]['package_name'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  );
-                }
+                      ),
+                    );
+                  },
+                );
               }
-              // Displaying LoadingSpinner to indicate waiting state
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ),
+            }
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

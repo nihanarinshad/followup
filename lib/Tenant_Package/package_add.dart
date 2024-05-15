@@ -24,7 +24,7 @@ class _PackagesaddState extends State<TenantPackagesadd> {
 
   PackageController packageController = Get.put(PackageController());
   StatusController statusController = Get.put(StatusController());
-  List<String> durationOptions = ["1 month", "2 months"];
+  List<String> durationOptions = ["Year", "Month"];
   List<String> paymentOptions = ["Credit Card", "PayPal"];
 
   String? _selectedDuration;
@@ -75,23 +75,6 @@ class _PackagesaddState extends State<TenantPackagesadd> {
                       return 'Please enter Package Name';
                     } else if (value.length < 3) {
                       return 'Package Name must be at least 6 characters long';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                child: TextFormField(
-                  controller: packageController.Durationcontroller,
-                  decoration: buildInputDecorationNOIcon(
-                      hintText: 'Duration Month/Year'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Duration';
-                    } else if (value.length < 3) {
-                      return 'Package Name must be at least 6 Duration long';
                     }
                     return null;
                   },
@@ -187,23 +170,6 @@ class _PackagesaddState extends State<TenantPackagesadd> {
                   },
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                child: TextFormField(
-                  controller: packageController.paymenttypecontroller,
-                  decoration:
-                      buildInputDecorationNOIcon(hintText: 'Payment Type'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Type';
-                    } else if (value.length < 3) {
-                      return 'Package Name must be at least 3 Duration long';
-                    }
-                    return null;
-                  },
-                ),
-              ),
               ContainersDropdown(
                 hinttext: 'Payment Method',
                 items: paymentOptions,
@@ -269,9 +235,8 @@ class _PackagesaddState extends State<TenantPackagesadd> {
                               packageController.Descriptioncontroller.text,
                           amount: int.parse(
                               packageController.Amountcontroller.text),
-                          paymenttype:
-                              packageController.paymenttypecontroller.text,
-                          subscrtype: packageController.Durationcontroller.text,
+                          paymenttype: _selectedPayment.toString(),
+                          subscrtype: _selectedDuration.toString(),
                         );
 
                         Get.back();

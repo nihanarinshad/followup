@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:follow_up/Api/base_client.dart';
@@ -10,6 +11,8 @@ import 'package:intl/intl.dart';
 
 class HistoryController extends GetxController {
   HttpBaseClient baseClient = HttpBaseClient();
+  LoginController loginController = Get.find();
+
   RxList<HistoryDetails> historyDetailsList = <HistoryDetails>[].obs;
   RxList historyid = [].obs;
   TextEditingController status_name = TextEditingController();
@@ -38,32 +41,11 @@ class HistoryController extends GetxController {
     var requestBody = jsonEncode(body);
     var response = await baseClient.postRequest(
         'add-status-field-data', headers, requestBody);
-    print('ncmmmdmddkd');
-
-    updatehistorylist();
   }
 
-  void getHistoryList() {
-    historyDetailsList = RxList(HistoryDetailsDB().box.values.toList());
-  }
+  void getHistoryList() {}
 
-  void updatehistorylist() {
-    final box = HistoryDetailsDB().box;
-
-    historyDetailsList.value = box.values.toList();
-
-    historyDetailsList.value = historyDetailsList.reversed.toList();
-
-    box.values.forEach((element) {
-      historyid.add(element.status_name);
-      historyid.add(element.comments);
-      historyid.add(element.nextappoinmentdate);
-      historyid.add(element.appoinmentdate);
-    });
-
-    update();
-    // refresh();
-  }
+  void updatehistorylist() {}
 
   @override
   void onInit() {
@@ -77,13 +59,50 @@ class HistoryController extends GetxController {
 
     var body = {'user_id': historyid.value};
     var requestBody = jsonEncode(body);
+
     var response = await baseClient.postRequest(
         'view-communication-history', headers, requestBody);
+    print('jfjfjfjfjj');
 
     Comments.text = response['comments'];
 
     status_name.text = response['status_name'];
     apSelectedDate.value = dateFormat.parse(response['next_appointment_date']);
     selectedDate.value = dateFormat.parse(response['date']);
+    print(response);
+    print('response');
+  }
+
+  Future<List> viewListHistory() async {
+    LoginController loginController = Get.find();
+    var headers = loginController.getHeaders();
+
+    var body = {'user_id': historyid.value};
+    var requestBody = jsonEncode(body);
+
+    var response = await baseClient.postRequest(
+        'view-communication-history', headers, requestBody);
+    print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+    print(historyid.length);
+    List responseAsList = response;
+    historyid.value = response;
+    // historyid.value = historyid.reversed.toList();
+    print(response);
+    print('response');
+
+    // List<HistoryDetails> invoices = historyid.map((userData) {
+    //   // var dateString = userData['date'];
+    //   // var dateTime =
+    //   //     HttpDate.parse(dateString); // Parse RFC 3339 formatted date string
+    //   return HistoryDetails(
+    //       status_name: userData['status_name'],
+    //       nextappoinmentdate: apSelectedDate.value =
+    //           dateFormat.parse(response['next_appointment_date']),
+    //       comments: userData['comments'],
+    //       appoinmentdate: selectedDate.value =
+    //           dateFormat.parse(response['date']),
+    //       id: userData['id']);
+    // }).toList();
+    return historyid.value;
   }
 }

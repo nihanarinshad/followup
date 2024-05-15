@@ -47,10 +47,15 @@ class StudentController extends GetxController {
       "dob": dob.toIso8601String(),
       "user_type": "student",
     };
-
+    print('djjdjd');
+    print(body);
     var requestBody = jsonEncode(body);
     var response =
         await baseClient.postRequest('add-user', headers, requestBody);
+    print('response');
+
+    print(response);
+    print('response');
 
     updateUserList();
   }

@@ -3,6 +3,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:follow_up/Controller/moderator_controller.dart';
 import 'package:follow_up/Controller/transactioncontroller.dart';
+import 'package:follow_up/Screens/BaseScreen.dart';
+import 'package:follow_up/Screens/floatingActionBaceScreen.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderatorAdd.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderator_edit.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderator_eye.dart';
@@ -24,69 +26,60 @@ class _TenantStudentState extends State<TenantTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 246, 241, 241),
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          centerTitle: true,
-          title: Text('Transaction'),
-          foregroundColor: Colors.white,
-        ),
-        body: FutureBuilder(
-            future: transactionController.TransactionListView(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount:
-                        transactionController.trasactionssDetailsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding:
-                            const EdgeInsets.only(top: 5, left: 10, right: 10),
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(20),
-                            color: Colors.white,
-                          ),
-                          child: ListView(children: [
-                            ListTile(
-                              leading: Text(
-                                transactionController
-                                    .trasactionssDetailsList[index]['id']
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              title: Center(
-                                  child: Text(
-                                      transactionController
-                                          .trasactionssDetailsList[index]
-                                              ['date']
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14))),
-                              trailing: Text(
-                                  transactionController
-                                      .trasactionssDetailsList[index]['amount']
-                                      .toString(),
-                                  style: TextStyle(fontSize: 14)),
-                            ),
-                          ]),
+    return BaseScreen(
+      appBarText: 'Transactions',
+      body: FutureBuilder(
+          future: transactionController.TransactionListView(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount:
+                      transactionController.trasactionssDetailsList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(top: 5, left: 10, right: 10),
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.circular(20),
+                          color: Colors.white,
                         ),
-                      );
-                    },
-                  );
-                }
+                        child: ListView(children: [
+                          ListTile(
+                            leading: Text(
+                              transactionController
+                                  .trasactionssDetailsList[index]['id']
+                                  .toString(),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            title: Center(
+                                child: Text(
+                                    transactionController
+                                        .trasactionssDetailsList[index]['date']
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 14))),
+                            trailing: Text(
+                                transactionController
+                                    .trasactionssDetailsList[index]['amount']
+                                    .toString(),
+                                style: TextStyle(fontSize: 14)),
+                          ),
+                        ]),
+                      ),
+                    );
+                  },
+                );
               }
-              // Displaying LoadingSpinner to indicate waiting state
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ),
+            }
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

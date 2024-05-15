@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:follow_up/Controller/moderator_controller.dart';
+import 'package:follow_up/Screens/floatingActionBaceScreen.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderatorAdd.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderator_edit.dart';
 import 'package:follow_up/Tenant_Moderator.dart/moderator_eye.dart';
@@ -26,107 +27,95 @@ class _TenantStudentState extends State<TenantModerator> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 246, 241, 241),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(TenantModeratorAdd())!.then((value) {
-              setState(() {});
-            });
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          backgroundColor: Colors.red,
+    return FloatBaseScreen(
+      appBarText: 'Moderator',
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(TenantModeratorAdd())!.then((value) {
+            setState(() {});
+          });
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          centerTitle: true,
-          title: Text('Moderator'),
-          foregroundColor: Colors.white,
-        ),
-        body: FutureBuilder(
-            future: moderatorController.UserListView(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: moderatorController.userDataDetailsList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 3),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Slidable(
-                            startActionPane:
-                                ActionPane(motion: ScrollMotion(), children: [
-                              SlidableAction(
-                                backgroundColor:
-                                    Color.fromARGB(255, 11, 64, 107),
-                                onPressed: (context) async {
-                                  moderatorController.moderatorid.value =
-                                      moderatorController
-                                              .userDataDetailsList[index]
-                                          ['user_id'];
+        backgroundColor: Colors.red,
+      ),
+      body: FutureBuilder(
+          future: moderatorController.UserListView(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: moderatorController.userDataDetailsList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 3),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Slidable(
+                          startActionPane:
+                              ActionPane(motion: ScrollMotion(), children: [
+                            SlidableAction(
+                              backgroundColor: Color.fromARGB(255, 11, 64, 107),
+                              onPressed: (context) async {
+                                moderatorController.moderatorid.value =
+                                    moderatorController
+                                        .userDataDetailsList[index]['user_id'];
 
-                                  await moderatorController.viewModeratoter();
+                                await moderatorController.viewModeratoter();
 
-                                  Get.to(Moderatoreye());
-                                },
-                                icon: Icons.remove_red_eye_outlined,
-                              )
-                            ]),
-                            endActionPane:
-                                ActionPane(motion: ScrollMotion(), children: [
-                              SlidableAction(
-                                backgroundColor: Color.fromARGB(255, 47, 2, 53),
-                                onPressed: (context) async {
-                                  moderatorController.moderatorid.value =
-                                      moderatorController
-                                              .userDataDetailsList[index]
-                                          ['user_id'];
+                                Get.to(Moderatoreye());
+                              },
+                              icon: Icons.remove_red_eye_outlined,
+                            )
+                          ]),
+                          endActionPane:
+                              ActionPane(motion: ScrollMotion(), children: [
+                            SlidableAction(
+                              backgroundColor: Color.fromARGB(255, 47, 2, 53),
+                              onPressed: (context) async {
+                                moderatorController.moderatorid.value =
+                                    moderatorController
+                                        .userDataDetailsList[index]['user_id'];
 
-                                  await moderatorController.viewModeratoter();
+                                await moderatorController.viewModeratoter();
 
-                                  Get.to(() => TenantModeratorEdit());
-                                },
-                                icon: Icons.edit,
-                              )
-                            ]),
-                            child: Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  radius: 25,
-                                  child: SvgPicture.asset(
-                                    'assets/people-svgrepo-com.svg',
-                                    height: 30,
-                                  ),
+                                Get.to(() => TenantModeratorEdit());
+                              },
+                              icon: Icons.edit,
+                            )
+                          ]),
+                          child: Card(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 25,
+                                child: SvgPicture.asset(
+                                  'assets/people-svgrepo-com.svg',
+                                  height: 30,
                                 ),
-                                title: Text(
-                                  moderatorController.userDataDetailsList[index]
-                                      ['username'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
+                              ),
+                              title: Text(
+                                moderatorController.userDataDetailsList[index]
+                                    ['username'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  );
-                }
+                      ),
+                    );
+                  },
+                );
               }
-              // Displaying LoadingSpinner to indicate waiting state
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ),
+            }
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

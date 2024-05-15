@@ -39,6 +39,13 @@ class _stdeyetate extends State<TenantStudentEye> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    historyController.viewListHistory();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseScreen(
       appBarText: 'Student',
@@ -146,6 +153,113 @@ class _stdeyetate extends State<TenantStudentEye> {
         SizedBox(
           height: 50,
         ),
+        // FutureBuilder(
+        //     future: historyController.viewListHistory(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.done) {
+        //         if (snapshot.hasData) {
+        //           return ListView.builder(
+        //             padding: EdgeInsets.only(right: 20),
+        //             itemCount: 1,
+        //             itemBuilder: (BuildContext context, int index) {
+        //               return Padding(
+        //                 padding: const EdgeInsets.only(
+        //                     top: 20, bottom: 20, left: 10, right: 5),
+        //                 child: Container(
+        //                     height: 100,
+        //                     width: 20,
+        //                     decoration: BoxDecoration(
+        //                         borderRadius: BorderRadius.circular(30),
+        //                         boxShadow: [
+        //                           BoxShadow(
+        //                               color: Colors.grey,
+        //                               spreadRadius: 10,
+        //                               blurRadius: 8,
+        //                               blurStyle: BlurStyle.outer,
+        //                               offset: Offset(10, 0))
+        //                         ]),
+        //                     child: Column(
+        //                         mainAxisAlignment: MainAxisAlignment.center,
+        //                         children: [
+        //                           Padding(padding: EdgeInsets.only(left: 20)),
+        //                           Row(
+        //                             children: [
+        //                               Padding(
+        //                                   padding: EdgeInsets.only(left: 20)),
+        //                               Text("Date  : ",
+        //                                   style: TextStyle(
+        //                                       fontWeight: FontWeight.bold)),
+        //                               Text(
+        //                                   // DateFormat.yMd().format(historyController
+        //                                   //     .historyid[index]
+        //                                   //     .appoinmentdate),
+        //                                   historyController.historyid[0]
+        //                                           ['communication_history']
+        //                                       ['date']),
+        //                               SizedBox(
+        //                                 width: 10,
+        //                               ),
+        //                               Text("status  : ",
+        //                                   style: TextStyle(
+        //                                       fontWeight: FontWeight.bold)),
+        //                               Text(
+        //                                 historyController.historyid[0]
+        //                                         ['communication_history']
+        //                                     ['status_name'],
+        //                               )
+        //                             ],
+        //                           ),
+        //                           Row(
+        //                             children: [
+        //                               Padding(
+        //                                   padding: EdgeInsets.only(left: 20)),
+        //                               Text("Next Appointment  : ",
+        //                                   style: TextStyle(
+        //                                       fontWeight: FontWeight.bold)),
+        //                               Text(
+        //                                   // DateFormat.yMd().format(historyController
+        //                                   //     .historyid[0]
+        //                                   //     .nextappoinmentdate),
+        //                                   historyController.historyid[0]
+        //                                           ['communication_history']
+        //                                       ['next_appointment_date'])
+        //                             ],
+        //                           ),
+        //                           Row(
+        //                             children: [
+        //                               Padding(
+        //                                   padding: EdgeInsets.only(left: 20)),
+        //                               Text("comments  : ",
+        //                                   style: TextStyle(
+        //                                       fontWeight: FontWeight.bold)),
+        //                               Text(
+        //                                   // historyController
+        //                                   //     .historyid[0].comments,
+        //                                   historyController.historyid[0]
+        //                                           ['communication_history']
+        //                                       ['comments'],
+        //                                   style: TextStyle(fontSize: 10)),
+        //                             ],
+        //                           ),
+        //                           // Row(
+        //                           //   children: [
+        //                           //     Padding(padding: EdgeInsets.only(left: 20)),
+        //                           //     Text(
+        //                           //       historyController.Comments.text,
+        //                           //     )
+        //                           //   ],
+        //                           // )
+        //                         ])),
+        //               );
+        //             },
+        //           );
+        //         }
+        //       }
+        //       // Displaying LoadingSpinner to indicate waiting state
+        //       return Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     }),
         Expanded(
           child: Container(
             width: 330,
@@ -163,89 +277,121 @@ class _stdeyetate extends State<TenantStudentEye> {
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
               ),
-              child: ListView.builder(
-                  padding: EdgeInsets.only(right: 20),
-                  itemCount: historyController.historyDetailsList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20, bottom: 20, left: 10, right: 5),
-                      child: Container(
-                          height: 100,
-                          width: 20,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    spreadRadius: 10,
-                                    blurRadius: 8,
-                                    blurStyle: BlurStyle.outer,
-                                    offset: Offset(10, 0))
-                              ]),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(padding: EdgeInsets.only(left: 20)),
-                                Row(
-                                  children: [
-                                    Padding(padding: EdgeInsets.only(left: 20)),
-                                    Text("Date  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                      DateFormat.yMd().format(historyController
-                                          .historyDetailsList[index]
-                                          .appoinmentdate),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("status  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                      historyController
-                                          .historyDetailsList[index]
-                                          .status_name,
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(padding: EdgeInsets.only(left: 20)),
-                                    Text("Next Appointment  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                      DateFormat.yMd().format(historyController
-                                          .historyDetailsList[index]
-                                          .nextappoinmentdate),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(padding: EdgeInsets.only(left: 20)),
-                                    Text("comments  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                        historyController
-                                            .historyDetailsList[index].comments,
-                                        style: TextStyle(fontSize: 10)),
-                                  ],
-                                ),
-                                // Row(
-                                //   children: [
-                                //     Padding(padding: EdgeInsets.only(left: 20)),
-                                //     Text(
-                                //       historyController.Comments.text,
-                                //     )
-                                //   ],
-                                // )
-                              ])),
-                    );
+              child: FutureBuilder(
+                  future: historyController.viewListHistory(),
+                  builder: (context, snapshot) {
+                    return ListView.builder(
+                        padding: EdgeInsets.only(right: 20),
+                        itemCount: historyController.historyid.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // print(';;;;;;;;;;;;;;p-');
+                          // print(historyController.historyid[0]
+                          //     ['communication_history']['comments']);
+                          // print(historyController.historyid[0]
+                          //     ['communication_history']['status_name']);
+                          // print(historyController.historyid[index]
+                          //     ['communication_history']['date']);
+                          return Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 10, right: 5),
+                              child: Container(
+                                height: 100,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey,
+                                          spreadRadius: 10,
+                                          blurRadius: 8,
+                                          blurStyle: BlurStyle.outer,
+                                          offset: Offset(10, 0))
+                                    ]),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 20)),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 20)),
+                                          Text("Date  : ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                              // DateFormat.yMd().format(historyController
+                                              //     .historyid[index]
+                                              //     .appoinmentdate),
+                                              historyController.historyid[0]
+                                                      ['communication_history']
+                                                  ['date']),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 10)),
+                                          Text("status  : ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                            historyController.historyid[0]
+                                                    ['communication_history']
+                                                ['status_name'],
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 10)),
+                                          Text("Next Appointment  : ",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Text(
+                                            // DateFormat.yMd().format(historyController
+                                            //     .historyid[0]
+                                            //     .nextappoinmentdate),
+                                            historyController.historyid[0]
+                                                    ['communication_history']
+                                                ['next_appointment_date'],
+                                            style: TextStyle(fontSize: 8),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 20)),
+                                          Text("comments  : ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                              // historyController
+                                              //     .historyid[0].comments,
+                                              historyController.historyid[0]
+                                                      ['communication_history']
+                                                  ['comments'],
+                                              style: TextStyle(fontSize: 10)),
+                                        ],
+                                      ),
+                                      // Row(
+                                      //   children: [
+                                      //     Padding(padding: EdgeInsets.only(left: 20)),
+                                      //     Text(
+                                      //       historyController.Comments.text,
+                                      //     )
+                                      //   ],
+                                      // )
+                                    ]),
+                              ));
+                        });
                   }),
             ),
           ),
